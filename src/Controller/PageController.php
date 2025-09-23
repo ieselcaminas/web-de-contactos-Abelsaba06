@@ -9,6 +9,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class PageController extends AbstractController
 {
+     private $contactos = [
+        1 => ["nombre" => "Juan Pérez", "telefono" => "524142432", "email" => "juanp@ieselcaminas.org"],
+        2 => ["nombre" => "Ana López", "telefono" => "58958448", "email" => "anita@ieselcaminas.org"],
+        5 => ["nombre" => "Mario Montero", "telefono" => "5326824", "email" => "mario.mont@ieselcaminas.org"],
+        7 => ["nombre" => "Laura Martínez", "telefono" => "42898966", "email" => "lm2000@ieselcaminas.org"],
+        9 => ["nombre" => "Nora Jover", "telefono" => "54565859", "email" => "norajover@ieselcaminas.org"]
+    ];
+
     #[Route('/page', name: 'app_page')]
     public function index(): JsonResponse
     {
@@ -25,7 +33,19 @@ final class PageController extends AbstractController
     #[Route('/contacto/{codigo}', name:'ficha')]
     public function ficha($codigo): Response
     {
-        return new Response("Datos del contacto con codigo $codigo");
+        $resultado = ($this->contactos[$codigo] ?? null);
+        if($resultado){
+            $html="<ul>";
+            $html .= "<li>$codigo</li>";
+            $html .= "<li>".$resultado['nombre']."</li>";
+            $html .= "<li>".$resultado['telefono']."</li>";
+            $html .= "<li>".$resultado['email']."</li>";
+            $html .= "<ul>";
+        }else{
+            return new Response("Contacto $codigo no encontrado");
+        }
+        return new Response("<html><body>$html</body><html>");
+
     }
     
 }
