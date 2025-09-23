@@ -28,24 +28,17 @@ final class PageController extends AbstractController
     #[Route('/',name:'inicio')]
     public function inicio():Response 
     {
-        return new Response("Bienvenido a la pagina web de contactos");
+        return $this->render('index.html.twig');
     }
     #[Route('/contacto/{codigo}', name:'ficha')]
     public function ficha($codigo): Response
     {
-        $resultado = ($this->contactos[$codigo] ?? null);
-        if($resultado){
-            $html="<ul>";
-            $html .= "<li>$codigo</li>";
-            $html .= "<li>".$resultado['nombre']."</li>";
-            $html .= "<li>".$resultado['telefono']."</li>";
-            $html .= "<li>".$resultado['email']."</li>";
-            $html .= "<ul>";
+        $contacto = ($this->contactos[$codigo] ?? null);
+        if($contacto){
+            return $this->render('ficha_contacto.html.twig',["contacto"=>$contacto]);
         }else{
             return new Response("Contacto $codigo no encontrado");
         }
-        return new Response("<html><body>$html</body><html>");
-
     }
     
 }
