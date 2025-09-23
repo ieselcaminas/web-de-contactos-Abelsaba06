@@ -22,4 +22,9 @@ final class PageController extends AbstractController
     {
         return new Response("Bienvenido a la pagina web de contactos");
     }
+    #[Route('/contacto/{codigo}', name:'ficha')]
+    public function ficha($codigo): Response
+    {
+        return new Response("Datos del contacto con codigo $codigo");
+    }
 }
