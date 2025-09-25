@@ -34,11 +34,7 @@ final class PageController extends AbstractController
     public function ficha($codigo): Response
     {
         $contacto = ($this->contactos[$codigo] ?? null);
-        if($contacto){
-            return $this->render('ficha_contacto.html.twig',["contacto"=>$contacto]);
-        }else{
-            return new Response("Contacto $codigo no encontrado");
-        }
-    }
-    
+        return $this->render('ficha_contacto.html.twig', [
+    'contacto' => $contacto]);
+    } 
 }
