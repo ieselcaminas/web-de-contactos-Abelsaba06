@@ -9,32 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class PageController extends AbstractController
 {
-     private $contactos = [
-        1 => ["nombre" => "Juan Pérez", "telefono" => "524142432", "email" => "juanp@ieselcaminas.org"],
-        2 => ["nombre" => "Ana López", "telefono" => "58958448", "email" => "anita@ieselcaminas.org"],
-        5 => ["nombre" => "Mario Montero", "telefono" => "5326824", "email" => "mario.mont@ieselcaminas.org"],
-        7 => ["nombre" => "Laura Martínez", "telefono" => "42898966", "email" => "lm2000@ieselcaminas.org"],
-        9 => ["nombre" => "Nora Jover", "telefono" => "54565859", "email" => "norajover@ieselcaminas.org"]
-    ];
 
-    #[Route('/page', name: 'app_page')]
-    public function index(): JsonResponse
-    {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/PageController.php',
-        ]);
-    }
+
     #[Route('/',name:'inicio')]
     public function inicio():Response 
     {
         return $this->render('index.html.twig');
     }
-    #[Route('/contacto/{codigo?1}', name:'ficha')]
-    public function ficha($codigo): Response
-    {
-        $contacto = ($this->contactos[$codigo] ?? null);
-        return $this->render('ficha_contacto.html.twig', [
-    'contacto' => $contacto]);
-    } 
 }
