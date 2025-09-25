@@ -9,8 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class PageController extends AbstractController
 {
-
-
     #[Route('/',name:'inicio')]
     public function inicio():Response 
     {
