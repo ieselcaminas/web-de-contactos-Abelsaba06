@@ -30,7 +30,7 @@ final class PageController extends AbstractController
     {
         return $this->render('index.html.twig');
     }
-    #[Route('/contacto/{codigo}', name:'ficha')]
+    #[Route('/contacto/{codigo?1}', name:'ficha')]
     public function ficha($codigo): Response
     {
         $contacto = ($this->contactos[$codigo] ?? null);
