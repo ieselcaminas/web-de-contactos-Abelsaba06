@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Contacto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\Persistence\ManagerRegistry;
+
 
 class ContactoController extends AbstractController
 {
@@ -21,5 +24,23 @@ class ContactoController extends AbstractController
         $contacto = ($this->contactos[$codigo] ?? null);
         return $this->render('ficha_contacto.html.twig', [
     'contacto' => $contacto]);
-    } 
+    }
+     #[Route('/contacto/insertar', name:'insertar')]
+    public function insertar(ManagerRegistry $doctrine)
+    {
+        $entityManager = $doctrine ->getManager();
+        foreach($this->contactos as $c){
+            $contacto =new Contacto();
+            $contacto->setNombre($c["nombre"]);
+            $contacto->setTelefono($c["telefono"]);
+            $contacto->setEmail($c["email"]);
+            $entityManager->persist($contacto);
+        }
+        try{
+            $entityManager->flush();
+            return new Response("Contactos insertados");
+        }catch (\Exception $e){
+            return new Response("Error insertando objetos");
+        }
+    }
 }
