@@ -26,7 +26,9 @@ class ContactoController extends AbstractController
         return $this->render('ficha_contacto.html.twig', [
     'contacto' => $contacto]);
     }
-     #[Route('/contacto/insertar', name:'insertar')]
+    /**
+     * @Route('/contacto/insertar', name:'insertar')
+     */
     public function insertar(ManagerRegistry $doctrine)
     {
         $entityManager = $doctrine ->getManager();
@@ -44,7 +46,9 @@ class ContactoController extends AbstractController
             return new Response("Error insertando objetos");
         }
     }
-    #[Route('/contacto/update/{id}/{nombre}', name:'modificar_nombre')]
+    /**
+     * @Route('/contacto/update/{id}/{nombre}', name:'modificar_nombre')
+     */
     public function update(ManagerRegistry $doctrine,$id,$nombre):Response{
         $entityManager =$doctrine->getManager();
         $repositorio=$doctrine->getRepository(Contacto::class);
@@ -65,7 +69,9 @@ class ContactoController extends AbstractController
                 ]);
         }
     }
-    #[Route('/contacto/delete/{id}/{nombre}', name:'eliminar')]
+    /**
+     * @Route('/contacto/delete/{id}/{nombre}', name:'eliminar')
+     */
     public function delete(ManagerRegistry $doctrine,$id,$nombre):Response{
         $entityManager =$doctrine->getManager();
         $repositorio=$doctrine->getRepository(Contacto::class);
