@@ -18,7 +18,7 @@ class ContactoController extends AbstractController
         7 => ["nombre" => "Laura Martínez", "telefono" => "42898966", "email" => "lm2000@ieselcaminas.org"],
         9 => ["nombre" => "Nora Jover", "telefono" => "54565859", "email" => "norajover@ieselcaminas.org"]
     ];
-    //#[Route('/contacto/{codigo?1}', name:'ficha')]
+    #[Route('/contacto/{codigo?1}', name:'ficha')]
     public function ficha(ManagerRegistry $doctrine, $codigo): Response
     {
         $repositorio=$doctrine->getRepository(Contacto::class);
@@ -65,7 +65,7 @@ class ContactoController extends AbstractController
                 ]);
         }
     }
-    #[Route('/contacto/delete/{id}/{nombre}', name:'modificar_nombre')]
+    #[Route('/contacto/delete/{id}/{nombre}', name:'eliminar')]
     public function delete(ManagerRegistry $doctrine,$id,$nombre):Response{
         $entityManager =$doctrine->getManager();
         $repositorio=$doctrine->getRepository(Contacto::class);
