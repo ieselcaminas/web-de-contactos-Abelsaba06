@@ -77,11 +77,24 @@ class ContactoController extends AbstractController
                 ]);
         }
     }
+    #[Route('/contacto/insertarProvincias', name:'ficha')]
+    public function insertarProvincia(ManagerRegistry $doctrine, $codigo): Response
+    {
+        $repositorio=$doctrine->getRepository(Contacto::class);
+        $contacto=$repositorio->find($codigo);
+
+        try{
+                
+                return new Response("Contacto eliminado");
+            }catch (\Exception $e){
+            return new Response("Error eliminando objetos");
+        }
+    }
     #[Route('/contacto/{codigo?1}', name:'ficha')]
     public function ficha(ManagerRegistry $doctrine, $codigo): Response
     {
         $repositorio=$doctrine->getRepository(Contacto::class);
-        $contacto = ($this->contactos[$codigo] ?? null);
+        $contacto = $repositorio->find($codigo);
         return $this->render('ficha_contacto.html.twig', [
     'contacto' => $contacto]);
     }
