@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Contacto;
+use App\Entity\Provincia;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Persistence\ManagerRegistry;
-
 
 class ContactoController extends AbstractController
 {
@@ -77,15 +77,20 @@ class ContactoController extends AbstractController
                 ]);
         }
     }
-    #[Route('/contacto/insertarProvincias', name:'ficha')]
+    #[Route('/contacto/{codigo?1}/insertarProvincias', name:'ficha')]
     public function insertarProvincia(ManagerRegistry $doctrine, $codigo): Response
     {
+        $entityManager =$doctrine->getManager();
         $repositorio=$doctrine->getRepository(Contacto::class);
+        $provincia=new Provincia();
+        $provincia->setNombre("Alicante");
         $contacto=$repositorio->find($codigo);
-
+        $contacto->setProvincia($provincia);
+        $entityManager->persist($provincia);
+        $entityManager->persist($contacto);
         try{
-                
-                return new Response("Contacto eliminado");
+            $entityManager->flush();    
+            return new Response("Contacto modificado");
             }catch (\Exception $e){
             return new Response("Error eliminando objetos");
         }
@@ -97,7 +102,5 @@ class ContactoController extends AbstractController
         $contacto = $repositorio->find($codigo);
         return $this->render('ficha_contacto.html.twig', [
     'contacto' => $contacto]);
-    }
-    
-    
+    }    
 }
