@@ -18,6 +18,7 @@ class ContactoController extends AbstractController
         7 => ["nombre" => "Laura Martínez", "telefono" => "42898966", "email" => "lm2000@ieselcaminas.org"],
         9 => ["nombre" => "Nora Jover", "telefono" => "54565859", "email" => "norajover@ieselcaminas.org"]
     ];
+    
     #[Route('/contacto/insertar', name:'insertar')]
     public function insertar(ManagerRegistry $doctrine)
     {
@@ -36,6 +37,7 @@ class ContactoController extends AbstractController
             return new Response("Error insertando objetos");
         }
     }
+
     #[Route('/contacto/update/{id}/{nombre}', name:'modificar')]
     public function update(ManagerRegistry $doctrine,$id,$nombre):Response{
         $entityManager =$doctrine->getManager();
@@ -57,6 +59,7 @@ class ContactoController extends AbstractController
                 ]);
         }
     }
+
      #[Route('/contacto/delete/{id}/{nombre}', name:'eliminar')]
     public function delete(ManagerRegistry $doctrine,$id,$nombre):Response{
         $entityManager =$doctrine->getManager();
@@ -77,13 +80,19 @@ class ContactoController extends AbstractController
                 ]);
         }
     }
-    #[Route('/contacto/{codigo?1}/insertarProvincias', name:'ficha')]
+
+    #[Route('/contacto/{codigo?1}/insertarProvincias', name:'insertarproviciaaContacto')]
     public function insertarProvincia(ManagerRegistry $doctrine, $codigo): Response
     {
         $entityManager =$doctrine->getManager();
         $repositorio=$doctrine->getRepository(Contacto::class);
-        $provincia=new Provincia();
-        $provincia->setNombre("Alicante");
+        $repositorioProvincia = $doctrine->getRepository(Provincia::class);
+        $provincia = $repositorioProvincia->findOneBy(['nombre' => 'Castellón']);
+        if (!$provincia) {
+        $provincia = new Provincia();
+        $provincia->setNombre("Castellón");
+        $entityManager->persist($provincia);
+        }
         $contacto=$repositorio->find($codigo);
         $contacto->setProvincia($provincia);
         $entityManager->persist($provincia);
@@ -92,9 +101,10 @@ class ContactoController extends AbstractController
             $entityManager->flush();    
             return new Response("Contacto modificado");
             }catch (\Exception $e){
-            return new Response("Error eliminando objetos");
+            return new Response("Error eliminando objetos". $e->getMessage());
         }
     }
+
     #[Route('/contacto/{codigo?1}', name:'ficha')]
     public function ficha(ManagerRegistry $doctrine, $codigo): Response
     {
