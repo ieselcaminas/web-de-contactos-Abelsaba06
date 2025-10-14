@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contacto;
 use App\Entity\Provincia;
-use App\Form\ContactoFormType; 
+use App\Form\ContactoFormType as ContactoType; 
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -147,7 +147,24 @@ class ContactoController extends AbstractController
             return new Response("Error eliminando objetos". $e->getMessage());
         }
     }
+    #[Route('/contacto/nuevo', name: 'nuevo_contacto')]
+    public function nuevo(ManagerRegistry $doctrine, Request $request) {
+        $contacto = new Contacto();
+        $formulario = $this->createForm(ContactoType::class, $contacto);
+        $formulario->handleRequest($request);
 
+        if ($formulario->isSubmitted() && $formulario->isValid()) {
+            $contacto = $formulario->getData();
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($contacto);
+            $entityManager->flush();
+            return $this->redirectToRoute('ficha_contacto', ["codigo" => $contacto->getId()]);
+        }
+
+        return $this->render('nuevo.html.twig', array(
+            'formulario' => $formulario->createView()
+        ));
+    }  
     #[Route('/contacto/{codigo?1}', name:'ficha')]
     public function ficha(ManagerRegistry $doctrine, $codigo): Response
     {
@@ -155,23 +172,5 @@ class ContactoController extends AbstractController
         $contacto = $repositorio->find($codigo);
         return $this->render('ficha_contacto.html.twig', [
     'contacto' => $contacto]);
-    }
-    #[Route('/contacto/nuevo', name: 'nuevo')]
-    public function nuevo(ManagerRegistry $doctrine, Request $request) {
-        $contacto = new Contacto();
-        $formulario = $this->createForm(ContactoFormType::class, $contacto);
-        $formulario->handleRequest($request);
-
-        if ($formulario->isSubmitted() && $formulario->isValid()) {
-            $contacto = $formulario->getData();
-            
-            $entityManager = $doctrine->getManager();
-            $entityManager->persist($contacto);
-            $entityManager->flush();
-            return $this->redirectToRoute('ficha_contacto', ["codigo" => $contacto->getId()]);
-        }
-        return $this->render('nuevo.html.twig', array(
-            'formulario' => $formulario->createView()
-        ));
-    }    
+    }  
 }
