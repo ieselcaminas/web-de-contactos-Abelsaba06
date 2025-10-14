@@ -117,6 +117,7 @@ class ContactoController extends AbstractController
         $contacto->setProvincia($provincia);
 
         $entityManager->persist($contacto);
+        $entityManager->flush();
         return $this->render('ficha_contacto.html.twig',[
             'contacto' => $contacto
         ]);
