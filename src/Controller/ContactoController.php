@@ -102,6 +102,25 @@ class ContactoController extends AbstractController
             'contacto' => $contacto
         ]);
     }
+    #[Route('/contacto/insertarSinProvincias', name:'insertar_sin_proviciaaContacto')]
+    public function insertarSinProvincia(ManagerRegistry $doctrine): Response
+    {
+        $entityManager =$doctrine->getManager();
+        $repositorio=$doctrine->getRepository(Provincia::class);
+        
+        $provincia=$repositorio->findOneBy(["nombre"=>"Alicante"]);
+        $contacto=new Contacto();
+
+        $contacto->setNombre("Samuel");
+        $contacto->setTelefono("610421822");
+        $contacto->setEmail("samuel@gmail.com");
+        $contacto->setProvincia($provincia);
+
+        $entityManager->persist($contacto);
+        return $this->render('ficha_contacto.html.twig',[
+            'contacto' => $contacto
+        ]);
+    }
     #[Route('/contacto/{codigo?1}/insertarProvincias', name:'insertarproviciaaContacto')]
     public function insertarProvincia(ManagerRegistry $doctrine, $codigo): Response
     {
