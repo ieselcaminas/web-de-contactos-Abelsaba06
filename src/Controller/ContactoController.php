@@ -110,12 +110,12 @@ class ContactoController extends AbstractController
         $entityManager =$doctrine->getManager();
         $repositorio=$doctrine->getRepository(Provincia::class);
         
-        $provincia=$repositorio->findOneBy(["nombre"=>"Alicante"]);
+        $provincia=$repositorio->findOneBy(["nombre"=>"Castellón"]);
         $contacto=new Contacto();
 
-        $contacto->setNombre("Samuel");
-        $contacto->setTelefono("610421822");
-        $contacto->setEmail("samuel@gmail.com");
+        $contacto->setNombre("Abel Sabater");
+        $contacto->setTelefono("692813883");
+        $contacto->setEmail("abelsabatermunoz@gmail.com");
         $contacto->setProvincia($provincia);
 
         $entityManager->persist($contacto);
