@@ -158,7 +158,7 @@ class ContactoController extends AbstractController
             $entityManager = $doctrine->getManager();
             $entityManager->persist($contacto);
             $entityManager->flush();
-            return $this->redirectToRoute('ficha_contacto', ["codigo" => $contacto->getId()]);
+            return $this->redirectToRoute('ficha', ["codigo" => $contacto->getId()]);
         }
 
         return $this->render('nuevo.html.twig', array(
@@ -182,7 +182,7 @@ class ContactoController extends AbstractController
             $entityManager = $doctrine->getManager();
             $entityManager->persist($contacto);
             $entityManager->flush();
-            return $this->redirectToRoute('ficha_contacto', ["codigo" => $contacto->getId()]);
+            return $this->redirectToRoute('ficha', ["codigo" => $contacto->getId()]);
         }
         return $this->render('nuevo.html.twig', array(
             'formulario' => $formulario->createView()
@@ -199,7 +199,6 @@ class ContactoController extends AbstractController
     {
         $repositorio=$doctrine->getRepository(Contacto::class);
         $contacto = $repositorio->find($codigo);
-        return $this->render('ficha_contacto.html.twig', [
-    'contacto' => $contacto]);
+        return $this->render('ficha_contacto.html.twig', ['contacto' => $contacto]);
     }  
 }

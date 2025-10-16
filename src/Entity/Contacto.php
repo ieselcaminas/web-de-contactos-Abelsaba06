@@ -16,9 +16,11 @@ class Contacto
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El nombre es obligatorio")]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 15)]
+    #[Assert\NotBlank(message: "El telefono es obligatorio")]
     private ?string $telefono = null;
 
     #[ORM\Column(type:"string",length: 255)]
