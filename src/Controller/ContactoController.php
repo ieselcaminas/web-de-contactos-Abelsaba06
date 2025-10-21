@@ -184,7 +184,7 @@ class ContactoController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('ficha', ["codigo" => $contacto->getId()]);
         }
-        return $this->render('nuevo.html.twig', array(
+        return $this->render('editar.html.twig', array(
             'formulario' => $formulario->createView()
         ));
     }else{
