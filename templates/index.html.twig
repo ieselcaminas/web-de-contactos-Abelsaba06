@@ -5,7 +5,7 @@
 <h1>Contactos</h1>
 <h2>Bienvenido a la web de Contactos.</h2>
 <p>Página de inicio</p>
-
+<button><a href="{{ path('nuevo_contacto')}}">Nuevo</a></button>
 <ul>
     {% for c in contacts %}
         <li>
@@ -22,5 +22,4 @@
         <li>No hay contactos.</li>
     {% endfor %}
 </ul>
-<button><a href="{{ path('nuevo_contacto')}}">Nuevo</a></button>
 {% endblock %}

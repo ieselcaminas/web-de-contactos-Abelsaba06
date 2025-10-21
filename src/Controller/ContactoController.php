@@ -75,7 +75,8 @@ class ContactoController extends AbstractController
     }
 
      #[Route('/contacto/delete/{id}/{nombre}', name:'eliminar')]
-    public function delete(ManagerRegistry $doctrine,$id,$nombre):Response{
+    public function delete(ManagerRegistry $doctrine,$id,$nombre):Response{   
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $entityManager =$doctrine->getManager();
         $repositorio=$doctrine->getRepository(Contacto::class);
         $contacto=$repositorio->find($id);
@@ -160,7 +161,8 @@ class ContactoController extends AbstractController
         }
     }
     #[Route('/contacto/nuevo', name: 'nuevo_contacto')]
-    public function nuevo(ManagerRegistry $doctrine, Request $request) {
+    public function nuevo(ManagerRegistry $doctrine, Request $request): Response{
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $contacto = new Contacto();
         $formulario = $this->createForm(ContactoType::class, $contacto);
         $formulario->handleRequest($request);
@@ -179,7 +181,8 @@ class ContactoController extends AbstractController
     }
 
     #[Route('/contacto/editar/{codigo?1}', name: 'editar', requirements:["codigo"=>"\d+"])]
-    public function editar(ManagerRegistry $doctrine, Request $request, int $codigo) {
+    public function editar(ManagerRegistry $doctrine, Request $request, int $codigo): Response {
+    $this->denyAccessUnlessGranted('ROLE_USER');
     $repositorio = $doctrine->getRepository(Contacto::class);
     //En este caso, los datos los obtenemos del repositorio de contactos
     $contacto = $repositorio->find($codigo);
