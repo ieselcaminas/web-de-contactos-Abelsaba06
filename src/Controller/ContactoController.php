@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Contacto;
 use App\Entity\Provincia;
-use App\Form\ContactoFormType as ContactoType; 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Form\ContactoFormType as ContactoType; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ContactoController extends AbstractController
@@ -20,6 +21,17 @@ class ContactoController extends AbstractController
         7 => ["nombre" => "Laura Martínez", "telefono" => "42898966", "email" => "lm2000@ieselcaminas.org"],
         9 => ["nombre" => "Nora Jover", "telefono" => "54565859", "email" => "norajover@ieselcaminas.org"]
     ];
+
+    #[Route('/', name: 'contact_index')]
+    public function index(EntityManagerInterface $em): Response
+    {
+        $repo = $em->getRepository(Contacto::class);
+        $contacts = $repo->findAll();
+
+        return $this->render('index.html.twig', [
+            'contacts' => $contacts,
+        ]);
+    }
     
     #[Route('/contacto/insertar', name:'insertar')]
     public function insertar(ManagerRegistry $doctrine)

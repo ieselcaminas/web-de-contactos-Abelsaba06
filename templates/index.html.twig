@@ -1,9 +1,27 @@
 {% extends 'base.html.twig' %}
 {% block title %}Contacto{% endblock %}
+
 {% block body %}
 <h1>Contactos</h1>
 <h2>Bienvenido a la web de Contactos.</h2>
-<p>Pagina de inicio</p>
-<button>Editar</button>
-<button>Borrar</button>
+<p>Página de inicio</p>
+
+<ul>
+    {% for c in contacts %}
+        <li>
+            {{ c.nombre ?: '(sin nombre)' }} — {{ c.email }}
+            
+            <button>
+                <a href="/contacto/editar/{{ c.id }}">Editar</a>
+            </button>
+            
+            <button>
+                <a href="/contacto/delete/{{ c.id }}/{{c.nombre}}">Borrar</a>
+            </button>
+        </li>
+    {% else %}
+        <li>No hay contactos.</li>
+    {% endfor %}
+</ul>
+<button><a href="{{ path('nuevo_contacto')}}">Nuevo</a></button>
 {% endblock %}
