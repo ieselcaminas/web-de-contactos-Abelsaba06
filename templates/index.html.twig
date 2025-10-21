@@ -9,8 +9,7 @@
 <ul>
     {% for c in contacts %}
         <li>
-            {{ c.nombre ?: '(sin nombre)' }} — {{ c.email }}
-            
+            <a href="/contacto/{{ c.id }}">{{c.nombre}} - {{c.email}}</a>
             <button>
                 <a href="/contacto/editar/{{ c.id }}">Editar</a>
             </button>
