@@ -25,11 +25,12 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
+      
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {              
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
@@ -40,16 +41,16 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('mail@correo.com', 'admin'))
-                    ->to((string) $user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            // $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            //     (new TemplatedEmail())
+            //         ->from(new Address('mail@correo.com', 'admin'))
+            //         ->to((string) $user->getEmail())
+            //         ->subject('Please Confirm your Email')
+            //         ->htmlTemplate('registration/confirmation_email.html.twig')
+            // );
 
             // do anything else you need here, like send an email
-
+          
             return $security->login($user, 'form_login', 'main');
         }
 
