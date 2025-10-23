@@ -5,3 +5,10 @@ body{
 h1{
     border-bottom: 1px solid black;
 }
+button{
+    margin: 5px;
+    border-radius: 5px;
+}
+a{
+    text-decoration: none;
+}
