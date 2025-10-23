@@ -21,7 +21,6 @@ class ContactoController extends AbstractController
         7 => ["nombre" => "Laura Martínez", "telefono" => "42898966", "email" => "lm2000@ieselcaminas.org"],
         9 => ["nombre" => "Nora Jover", "telefono" => "54565859", "email" => "norajover@ieselcaminas.org"]
     ];
-
     #[Route('/', name: 'contact_index')]
     public function index(EntityManagerInterface $em): Response
     {
@@ -73,8 +72,7 @@ class ContactoController extends AbstractController
                 ]);
         }
     }
-
-     #[Route('/contacto/delete/{id}/{nombre}', name:'eliminar')]
+    #[Route('/contacto/delete/{id}/{nombre}', name:'eliminar')]
     public function delete(ManagerRegistry $doctrine,$id,$nombre):Response{   
         $this->denyAccessUnlessGranted('ROLE_USER');
         $entityManager =$doctrine->getManager();

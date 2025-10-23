@@ -10,6 +10,7 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
+        
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -17,9 +18,9 @@ security:
             lazy: true
             provider: app_user_provider
             form_login:
-                # "login" is the name of the route created previously
-                login_path: login
-                check_path: login
+                # "app_login" para que funcione el login tienes que cambiar esta parte en login a app_login
+                login_path: app_login
+                check_path: app_login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 

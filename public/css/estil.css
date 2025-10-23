@@ -13,3 +13,7 @@ a{
     text-decoration: none;
     color: rgb(255, 99, 37);
 }
+nav{
+    display: flex;
+    justify-content: space-between;
+}
